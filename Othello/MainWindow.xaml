@@ -8,13 +8,13 @@
         xmlns:View="clr-namespace:Othello.View.UserControls"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid Name="LayoutGrid" SizeChanged="LayoutGrid_SizeChanged">
+    <Grid Name="LayoutGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="40"/>
             <RowDefinition Height="80*"/>
             <RowDefinition Height="20*"/>
         </Grid.RowDefinitions>
-        <View:GameMenu />
+        <View:GameMenu x:Name="gameMenu" />
         <TextBox Grid.Row="2" Name="DebugTextBox"  Margin="5,5,5,5" TextWrapping="Wrap" Text="debug"  AutomationProperties.ItemStatus="Empty" />
     </Grid>
 </Window>

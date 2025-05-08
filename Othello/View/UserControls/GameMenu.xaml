@@ -13,7 +13,7 @@
         </Grid.RowDefinitions>
         <Menu>
             <MenuItem Header="Game" FontSize="16">
-                <MenuItem Header="Play Solo" FontSize="16"/>
+                <MenuItem Header="Play Solo" FontSize="16" Click="PlaySolo_Click"/>
                 <MenuItem Header="Host Game" FontSize="16"/>
                 <MenuItem Header="Join Game" FontSize="16"/>
                 <MenuItem Header="Load Game" FontSize="16"/>

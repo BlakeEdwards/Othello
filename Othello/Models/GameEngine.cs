@@ -11,21 +11,44 @@ namespace Othello.Models
     internal class GameEngine
     {
         Tile[,] board = new Tile[8, 8];
+        private int player1Score = 2;
+        private int player2Score = 2;
+        public int Player1Score => player1Score;
+        public int Player2Score => player2Score;
 
-        private PlayerColor CurrentPlayer = PlayerColor.White;
+        private Players CurrentPlayer = Players.Player1;
         public GameEngine() { }
         public void StartGame() { }
-        public Grid GetGameBoard()
+        public Grid GetGamePanel()
         {
-            Grid boardWrapper = new Grid
+            //creat gamepanel
+            Grid gamePanel = new Grid
             {
                 Name = "wrapperBoard",
                 VerticalAlignment = VerticalAlignment.Stretch,
                 HorizontalAlignment = HorizontalAlignment.Stretch,
             };
+            //define/add columns for  daashboard board
+            ColumnDefinition col1 = new ColumnDefinition();
+            col1.Width = new GridLength(2, GridUnitType.Star);
+            ColumnDefinition col2 = new ColumnDefinition();
+            col2.Width = new GridLength(8, GridUnitType.Star);
+            gamePanel.ColumnDefinitions.Add(col1);
+            gamePanel.ColumnDefinitions.Add(col2);
+
+            //add dashboard
+            GameDashboard gameDashboard = new GameDashboard();
+            Grid.SetColumn(gameDashboard, 0);
+            gamePanel.Children.Add(gameDashboard);
+
+            //add board
             Grid board = new Grid { Name = "board" };
-            boardWrapper.Children.Add(board);
-            boardWrapper.SizeChanged += Grid_SizeChanged;
+            Grid.SetColumn(board, 1);
+            gamePanel.Children.Add(board);
+            gamePanel.SizeChanged += Grid_SizeChanged;
+
+
+            //setup board
             int size = 8;
             // add all rows and columns
             for (int i = 0; i < size; i++)
@@ -52,29 +75,34 @@ namespace Othello.Models
             }
             //starter squares (3,3)(3,4)(4,3)(4,4)
 
-            this.board[3, 3].Owner = PlayerColor.White;
-            this.board[4, 4].Owner = PlayerColor.White;
-            this.board[3, 4].Owner = PlayerColor.Black;
-            this.board[4, 3].Owner = PlayerColor.Black;
-            return boardWrapper;
+            return gamePanel;
         }
-
+        public void resetGame()
+        {
+            CurrentPlayer = Players.Player1;
+            player1Score = 2;
+            player2Score = 2;
+            foreach (Tile tile in this.board)
+            {
+                tile.resetTile();
+            }
+        }
 
         private void Grid_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             //FrameworkElement parent = sender.Parent as FrameworkElement;
             if (sender is Grid wrapperBoard)
             {
-                Grid board = (Grid)wrapperBoard.Children[0];
+                Grid board = (Grid)wrapperBoard.Children[1];
                 double size = Math.Min(wrapperBoard.ActualHeight, wrapperBoard.ActualWidth);
                 board.Width = board.Height = size;
             }
         }
 
-        private PlayerColor MoveMade(Tile tile, TileClickedEventArgs e)
+        private Players MoveMade(Tile tile, TileClickedEventArgs e)
         {
-            if(tile.Owner != PlayerColor.None) { return PlayerColor.None; }
-            PlayerColor newOwner = CurrentPlayer;
+            if(tile.Owner != Players.None) { return Players.None; }
+            Players newOwner = CurrentPlayer;
             List<Tile> flipableTiles = GetFlippableTiles(tile, CurrentPlayer);
             if (flipableTiles.Count > 0)
                 {
@@ -85,14 +113,14 @@ namespace Othello.Models
                     tl.Owner = newOwner;
                 }
                 tile.Owner = newOwner;
-                if (CurrentPlayer == PlayerColor.White) { CurrentPlayer = PlayerColor.Black; }
-                else { CurrentPlayer = PlayerColor.White; }
+                if (CurrentPlayer == Players.Player1) { CurrentPlayer = Players.Player2; }
+                else { CurrentPlayer = Players.Player1; }
 
                 return newOwner;
             }
-            return PlayerColor.None;
+            return Players.None;
         }
-        private List<Tile> GetFlippableTiles(Tile origin, PlayerColor player)
+        private List<Tile> GetFlippableTiles(Tile origin, Players player)
         {
             var directions8 = new (int dr, int dc)[]
             {
@@ -114,7 +142,7 @@ namespace Othello.Models
                 while (IsOnBoard(r, c))
                 {
                     var tile = board[r, c];
-                    if (tile.Owner == PlayerColor.None) break;
+                    if (tile.Owner == Players.None) break;
                     if (tile.Owner == player)
                     {
                         flippable.AddRange(temp);

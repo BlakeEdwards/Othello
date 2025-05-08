@@ -1,0 +1,43 @@
+﻿<UserControl x:Class="Othello.View.UserControls.GameDashboard"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Othello.View.UserControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Label VerticalAlignment="Center" HorizontalAlignment="Center" Content="Game Info" FontSize="24" FontWeight="Bold"/>
+        <Border Grid.Row="1" x:Name="p1Block">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <Label Grid.Row="0" Content="Player 1's Score" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="10,10,0,0" FontSize="16" FontWeight="Bold"/>
+                <Label Grid.Row="1" x:Name="p1Score" Content="Score: "  HorizontalAlignment="Center" VerticalAlignment="Top" Margin="10,10,0,0" FontSize="16" FontWeight="Bold"/>
+                <RadioButton x:Name="ai1RadioButton" Grid.Row="3" Grid.ColumnSpan=" 2 " Content="Enable Ai" Margin="10,0,0,0" FontSize="16" FontWeight="Bold" VerticalContentAlignment="top" IsEnabledChanged="p1RadioButton_EnabledChanged"/>
+            </Grid>
+        </Border>
+        <Border Grid.Row="2" x:Name="p2Block">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <Label Grid.Row="0" Content="Player 2's Score" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="10,10,0,0" FontSize="16" FontWeight="Bold"/>
+                <Label Grid.Row="1" x:Name="p2Score" Content="Score: "  HorizontalAlignment="Center" VerticalAlignment="Top" Margin="10,10,0,0" FontSize="16" FontWeight="Bold"/>
+                <RadioButton x:Name="ai2RadioButton" Grid.Row="3" Grid.ColumnSpan=" 2 " Content="Enable Ai" Margin="10,0,0,0" FontSize="16" FontWeight="Bold" VerticalContentAlignment="top" IsEnabledChanged="p2RadioButton_EnabledChanged"/>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

@@ -12,51 +12,30 @@ namespace Othello
     public partial class MainWindow : Window
     {
         Tile[,] tiles = new Tile[8, 8];
+        GameEngine game;
         public MainWindow()
         {
             InitializeComponent();
+            gameMenu.MenuItemClicked += onMenuAction;
             //InitializeGameGrid();
             //this.LayoutUpdated += Window_SizeChanged;
-            GameEngine game =new GameEngine();
-            Grid board = game.GetGameBoard();
-            Grid.SetRow(board, 1);
-            LayoutGrid.Children.Add(board);
+            game = new GameEngine();
+            Grid GamePanel = game.GetGamePanel();
+            Grid.SetRow(GamePanel, 1);
+            LayoutGrid.Children.Add(GamePanel);
         }
 
-        private void LayoutGrid_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void onMenuAction(MenuAction action)
         {
+            switch(action)
+            {
+                case MenuAction.PlaySolo:
+                    game.resetGame();
+                    break;
+                default:
+                    break;
 
+            }
         }
-        //private void InitializeGameGrid()
-        //{
-        //}
-        //private void Window_SizeChanged(object? sender, EventArgs e)
-        //{
-
-
-        //    // Use the smaller dimension (width or height) to maintain square aspect ratio
-        //    RowDefinition row = LayoutGrid.RowDefinitions[1];
-        //    double size = Math.Min(row.ActualHeight, LayoutGrid.ActualWidth);
-        //    size -= 5;
-
-        //    // Set both width and height to the same size to maintain a square grid
-        //    DebugTextBox.Text = "resized Size: " + size + " Height: " + board.ActualHeight + " width: " + board.ActualWidth + " row " + row.ActualHeight;
-        //    board.Width = board.Height = size;
-        //}
-
-
-
-        //private bool isMoveValid(PlayerColor player, int row, int col)
-        //{
-        //    //123
-        //    //4 6
-        //    //789
-        //    return false;
-        //}
-
-        //private void LayoutGrid_SizeChanged(object sender, SizeChangedEventArgs e)
-        //{
-
-        //}
     }
 }

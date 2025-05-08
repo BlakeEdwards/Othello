@@ -9,17 +9,20 @@ namespace Othello.View.UserControls
     /// </summary>
     public partial class BaseTile : UserControl
     {
+        
         //vars
-        public PlayerColor owner;
-        public PlayerColor Owner
+        public Players owner;
+        public Players Owner
         {
             get => owner;
             set
             {
                 owner = value;
-                if (Owner == PlayerColor.None) { Piece.Fill = null; }
-                else if (Owner == PlayerColor.White) { Piece.Fill = Brushes.BlueViolet; }
-                else if (Owner == PlayerColor.Black) { Piece.Fill = Brushes.SpringGreen; }
+                //get colors
+
+                if (Owner == Players.None) { Piece.Fill = null; }
+                else if (Owner == Players.Player1) { Piece.Fill = (Brush)Application.Current.Resources["Player1Color"]; }
+                else if (Owner == Players.Player2) { Piece.Fill = (Brush)Application.Current.Resources["Player2Color"]; }
             }
         }
 

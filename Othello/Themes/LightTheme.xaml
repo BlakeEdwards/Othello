@@ -17,6 +17,12 @@
     <Style TargetType="TextBlock">
         <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
     </Style>
+    <Style TargetType="Label">
+        <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
+    </Style>
+    <Style TargetType="RadioButton">
+        <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
+    </Style>
 
     <Style TargetType="Button">
         <Setter Property="Background" Value="{StaticResource HighlightBrush}"/>

@@ -2,7 +2,7 @@
 
 namespace Othello.GameLogic
 {
-    public class TileClickedEventArgs : EventArgs
+    internal class TileClickedEventArgs : EventArgs
     {
         public Tile BaseTile { get; }
         public int Row { get; }
@@ -17,20 +17,20 @@ namespace Othello.GameLogic
     }
 
     public enum Owner { Null, White, Black };
-    public class Tile
+    internal class Tile
     {
         //event delegate and Event
-        public delegate PlayerColor TileClickedHandler(Tile sender, TileClickedEventArgs e);
+        public delegate Players TileClickedHandler(Tile sender, TileClickedEventArgs e);
         public event TileClickedHandler? TileClicked;
 
         public BaseTile tile;
-        private int row;
-        private int col;
+        private readonly int row;
+        private readonly int col;
         
-        public int Row { get { return row; } }
-        public int Col { get { return col; } }
-        private PlayerColor tileOwner;
-        public PlayerColor Owner
+        public int Row => row;
+        public int Col => col;
+        private Players tileOwner;
+        public Players Owner
         {
             get => tileOwner;
             set
@@ -41,7 +41,7 @@ namespace Othello.GameLogic
 
         }
 
-        public Tile(PlayerColor owner)
+        public Tile(Players owner)
         {
             this.tileOwner = owner;
             tile = new BaseTile();
@@ -51,31 +51,28 @@ namespace Othello.GameLogic
 
         public Tile()
         {
-            Owner = PlayerColor.None;
+            Owner = Players.None;
             tile = new BaseTile();
         }
         public Tile(BaseTile tile, int row, int col)
         {
             this.tile = tile;
             this.tile.BaseTileClicked += Tile_Click;
-            this.tileOwner = PlayerColor.None;
             this.row = row;
             this.col = col;
+            resetTile();
         }
         private void Tile_Click(BaseTile tile)
         {
-            PlayerColor plColor = (PlayerColor?)TileClicked?.Invoke(this, new TileClickedEventArgs(this, row, col)) ?? PlayerColor.None;
-            if(plColor != PlayerColor.None){ this.tileOwner = plColor; }
+            Players plColor = (Players?)TileClicked?.Invoke(this, new TileClickedEventArgs(this, row, col)) ?? Players.None;
+            if(plColor != Players.None){ this.tileOwner = plColor; }
             return;
-            /*
-            if (tile.Owner == PlayerColor.None) { return PlayerColor.White; }
-            if (tile.Owner == PlayerColor.White) { return PlayerColor.Black; }
-            if (tile.Owner == PlayerColor.Black) { return PlayerColor.White; }
-            // validate move magic
-
-            // getCurrentplayer
-            //getTiles to update
-            return PlayerColor.None;*/
+        }
+        public void resetTile() 
+        {
+            if ((row == 3 && col == 3) || (row == 4 && col == 4)) { Owner = Players.Player1; }
+            else if ((row == 4 && col == 3) || (row == 3 && col == 4)) { Owner = Players.Player2; }
+            else { Owner = Players.None; }
         }
     }
 }

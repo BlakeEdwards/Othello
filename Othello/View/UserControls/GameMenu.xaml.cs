@@ -7,8 +7,11 @@ namespace Othello.View.UserControls
     /// <summary>
     /// Interaction logic for GameMenu.xaml
     /// </summary>
+    public enum MenuAction { PlaySolo, PlayAI, Quit, Settings }
     public partial class GameMenu : UserControl
     {
+        public event Action<MenuAction>? MenuItemClicked;
+
         int darkTheme = -1;
         public GameMenu()
         {
@@ -29,6 +32,11 @@ namespace Othello.View.UserControls
                     new ResourceDictionary { Source = new Uri(uriString, UriKind.Relative) });
             darkTheme *= -1;
             //DebugTextBox.Text = "Theme Changed: " + darkTheme;
+        }
+
+        private void PlaySolo_Click(object sender, RoutedEventArgs e)
+        {
+            MenuItemClicked?.Invoke(MenuAction.PlaySolo);
         }
     }
 }
