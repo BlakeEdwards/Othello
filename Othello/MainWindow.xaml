@@ -1,0 +1,20 @@
+﻿<Window x:Class="Othello.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Othello"
+        xmlns:UserControls="clr-namespace:Othello.View.UserControls"
+        xmlns:View="clr-namespace:Othello.View.UserControls"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid Name="LayoutGrid" SizeChanged="LayoutGrid_SizeChanged">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="80*"/>
+            <RowDefinition Height="20*"/>
+        </Grid.RowDefinitions>
+        <View:GameMenu />
+        <TextBox Grid.Row="2" Name="DebugTextBox"  Margin="5,5,5,5" TextWrapping="Wrap" Text="debug"  AutomationProperties.ItemStatus="Empty" />
+    </Grid>
+</Window>

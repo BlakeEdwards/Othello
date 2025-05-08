@@ -1,0 +1,27 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Core Brushes -->
+    <SolidColorBrush x:Key="BackgroundBrush" Color="#FFFFFFFF"/>
+    <SolidColorBrush x:Key="ForegroundBrush" Color="#FF000000"/>
+    <SolidColorBrush x:Key="BorderBrush"     Color="#FFCCCCCC"/>
+    <SolidColorBrush x:Key="HighlightBrush"  Color="#FFE0E0E0"/>
+    <SolidColorBrush x:Key="SelectionBrush"  Color="#FF3399FF"/>
+    <SolidColorBrush x:Key="CaretBrush"      Color="#FF000000"/>
+
+    <!-- Example Style -->
+    <Style TargetType="Grid">
+        <Setter Property="Background" Value="{StaticResource BackgroundBrush}"/>
+    </Style>
+
+    <Style TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
+    </Style>
+
+    <Style TargetType="Button">
+        <Setter Property="Background" Value="{StaticResource HighlightBrush}"/>
+        <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
+    </Style>
+
+</ResourceDictionary>
