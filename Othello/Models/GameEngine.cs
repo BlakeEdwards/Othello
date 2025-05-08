@@ -5,20 +5,29 @@ using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Shapes;
 
 namespace Othello.Models
 {
     internal class GameEngine
     {
         Tile[,] board = new Tile[8, 8];
+        private GameDashboard gameDashboard;
         private int player1Score = 2;
         private int player2Score = 2;
         public int Player1Score => player1Score;
         public int Player2Score => player2Score;
 
         private Players CurrentPlayer = Players.Player1;
-        public GameEngine() { }
-        public void StartGame() { }
+        public GameEngine() 
+        { 
+            gameDashboard = new GameDashboard();
+
+        }
+
+
         public Grid GetGamePanel()
         {
             //creat gamepanel
@@ -26,7 +35,7 @@ namespace Othello.Models
             {
                 Name = "wrapperBoard",
                 VerticalAlignment = VerticalAlignment.Stretch,
-                HorizontalAlignment = HorizontalAlignment.Stretch,
+                HorizontalAlignment = HorizontalAlignment.Stretch
             };
             //define/add columns for  daashboard board
             ColumnDefinition col1 = new ColumnDefinition();
@@ -37,16 +46,15 @@ namespace Othello.Models
             gamePanel.ColumnDefinitions.Add(col2);
 
             //add dashboard
-            GameDashboard gameDashboard = new GameDashboard();
             Grid.SetColumn(gameDashboard, 0);
             gamePanel.Children.Add(gameDashboard);
-
+            gameDashboard.updateDisplay(2, 2, CurrentPlayer);
             //add board
             Grid board = new Grid { Name = "board" };
             Grid.SetColumn(board, 1);
+            Grid.SetZIndex(board, 0);
             gamePanel.Children.Add(board);
             gamePanel.SizeChanged += Grid_SizeChanged;
-
 
             //setup board
             int size = 8;
@@ -68,15 +76,20 @@ namespace Othello.Models
                     Grid.SetRow(tile.tile, r);
                     Grid.SetColumn(tile.tile, c);
                     tile.TileClicked += MoveMade;
+                    tile.TileEnter += Tile_TileEnter;
                     this.board[r, c] = tile;
 
                     board.Children.Add(tile.tile);
                 }
             }
-            //starter squares (3,3)(3,4)(4,3)(4,4)
-
             return gamePanel;
         }
+
+        private Players Tile_TileEnter(Tile sender)
+        {
+            return CurrentPlayer;
+        }
+
         public void resetGame()
         {
             CurrentPlayer = Players.Player1;
@@ -86,18 +99,14 @@ namespace Othello.Models
             {
                 tile.resetTile();
             }
+            gameDashboard.updateDisplay(player1Score, player2Score, CurrentPlayer);
         }
 
-        private void Grid_SizeChanged(object sender, SizeChangedEventArgs e)
+        public void setDashboardDisplay()
         {
-            //FrameworkElement parent = sender.Parent as FrameworkElement;
-            if (sender is Grid wrapperBoard)
-            {
-                Grid board = (Grid)wrapperBoard.Children[1];
-                double size = Math.Min(wrapperBoard.ActualHeight, wrapperBoard.ActualWidth);
-                board.Width = board.Height = size;
-            }
+            gameDashboard.updateDisplay(player1Score, player2Score, CurrentPlayer);
         }
+
 
         private Players MoveMade(Tile tile, TileClickedEventArgs e)
         {
@@ -108,14 +117,22 @@ namespace Othello.Models
                 {
                 //Update related Tiles
                 //update CurrentPlayer
-                foreach (Tile tl in flipableTiles)
-                {
-                    tl.Owner = newOwner;
-                }
+                flipableTiles.ForEach(tl => tl.Owner = newOwner) ;
                 tile.Owner = newOwner;
-                if (CurrentPlayer == Players.Player1) { CurrentPlayer = Players.Player2; }
-                else { CurrentPlayer = Players.Player1; }
+                if (CurrentPlayer == Players.Player1) 
+                { 
+                    CurrentPlayer = Players.Player2;
+                    player1Score += 1 + flipableTiles.Count;
+                    player2Score -= flipableTiles.Count;
+                }
+                else 
+                { 
+                    CurrentPlayer = Players.Player1;
+                    player2Score += 1 + flipableTiles.Count;
+                    player1Score -= flipableTiles.Count;
+                }
 
+                gameDashboard.updateDisplay(player1Score, player2Score, CurrentPlayer);
                 return newOwner;
             }
             return Players.None;
@@ -161,6 +178,18 @@ namespace Othello.Models
             if (r < 0 || c < 0) { return false; }
             if (r >= 8 || c >= 8) { return false; }
             return true;
+        }
+
+        //Auto Resize Grid
+        private void Grid_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            //FrameworkElement parent = sender.Parent as FrameworkElement;
+            if (sender is Grid wrapperBoard)
+            {
+                Grid board = (Grid)wrapperBoard.Children[1];
+                double size = Math.Min(wrapperBoard.ActualHeight, wrapperBoard.ActualWidth);
+                board.Width = board.Height = size;
+            }
         }
     }
 }

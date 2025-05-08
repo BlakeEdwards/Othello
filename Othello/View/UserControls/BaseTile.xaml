@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:Othello.View.UserControls"
              mc:Ignorable="d" 
              d:DesignHeight="100" d:DesignWidth="100" BorderBrush="#FFF1C9C9">
-    <Border MouseDown="OnTileClicked" Background="Transparent" BorderThickness="1" BorderBrush="#FFCC7878">
+    <Border MouseDown="OnTileClicked" MouseEnter="Border_MouseEnter" MouseLeave="Border_MouseLeave" Background="Transparent" BorderThickness="1" BorderBrush="#FFCC7878">
         <Viewbox>
             <Ellipse x:Name="Piece" Height="100" Width="100"/>
         </Viewbox>

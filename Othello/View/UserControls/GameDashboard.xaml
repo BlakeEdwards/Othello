@@ -12,7 +12,7 @@
             <RowDefinition/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <Label VerticalAlignment="Center" HorizontalAlignment="Center" Content="Game Info" FontSize="24" FontWeight="Bold"/>
+        <Label x:Name="msgBoard" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Game Info" FontSize="16" FontWeight="Bold"/>
         <Border Grid.Row="1" x:Name="p1Block">
             <Grid>
                 <Grid.RowDefinitions>

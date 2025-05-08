@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
@@ -43,9 +44,17 @@ namespace Othello.View.UserControls
             onAiChanged?.Invoke(Players.Player2, radioButton.IsEnabled);
             if (radioButton.IsEnabled) { ai1RadioButton.IsEnabled = false; }
         }
-        public void updateDisplay(int player1Score, int player2Score, Players CurrentTrun)
+        public void updateDisplay(int player1Score, int player2Score, Players CurrentPlayer)
         {
-
+            updateScores(player1Score, player2Score);
+            if (CurrentPlayer is Players.Player1) { updateMsgBoard("Players 1's Turn"); }
+            else if (CurrentPlayer is Players.Player2) { updateMsgBoard("Players 2's Turn"); }
+            if (CurrentPlayer is Players.Player1) { msgBoard.Foreground = (Brush)Application.Current.Resources["Player1Color"]; }
+            else { msgBoard.Foreground = (Brush)Application.Current.Resources["Player2Color"]; }
+        }
+        public void updateMsgBoard(String msg)
+        {
+            msgBoard.Content = msg;
         }
         public void updateScores(int player1Score, int player2Score)
         {

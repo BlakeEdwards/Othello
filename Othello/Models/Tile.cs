@@ -22,6 +22,8 @@ namespace Othello.GameLogic
         //event delegate and Event
         public delegate Players TileClickedHandler(Tile sender, TileClickedEventArgs e);
         public event TileClickedHandler? TileClicked;
+        public delegate Players TileEnterHandler(Tile sender);
+        public event TileEnterHandler? TileEnter;
 
         public BaseTile tile;
         private readonly int row;
@@ -58,10 +60,19 @@ namespace Othello.GameLogic
         {
             this.tile = tile;
             this.tile.BaseTileClicked += Tile_Click;
+            this.tile.BaseTileMouseEnter += Tile_BaseTileMouseEnter;
             this.row = row;
             this.col = col;
             resetTile();
         }
+
+        private Players? Tile_BaseTileMouseEnter(BaseTile sender)
+        {
+            if(TileEnter?.Invoke(this) is Players player)
+            { return player; }
+            return null;
+        }
+
         private void Tile_Click(BaseTile tile)
         {
             Players plColor = (Players?)TileClicked?.Invoke(this, new TileClickedEventArgs(this, row, col)) ?? Players.None;
