@@ -26,7 +26,6 @@ namespace Othello.View.UserControls
             }
         }
 
-
         //Init
         public BaseTile()
         {

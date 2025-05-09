@@ -13,12 +13,13 @@
         </Grid.RowDefinitions>
         <Menu>
             <MenuItem Header="Game" FontSize="16">
-                <MenuItem Header="Play Solo" FontSize="16" Click="PlaySolo_Click"/>
-                <MenuItem Header="Host Game" FontSize="16"/>
-                <MenuItem Header="Join Game" FontSize="16"/>
-                <MenuItem Header="Load Game" FontSize="16"/>
+                <MenuItem Tag ="{x:Static local:MenuAction.NewGame}"  Header="New Game" FontSize="16" Click="MenuItem_Clicked"/>
+                <MenuItem Tag ="{x:Static local:MenuAction.HostGame}" Header="Host Game" FontSize="16" Click="MenuItem_Clicked"/>
+                <MenuItem Tag ="{x:Static local:MenuAction.JoinGame}" Header="Join Game" FontSize="16" Click="MenuItem_Clicked"/>
+                <MenuItem Tag ="{x:Static local:MenuAction.LoadGame}" Header="Load Game" FontSize="16" Click="MenuItem_Clicked"/>
             </MenuItem>
             <MenuItem Header="Settings" FontSize="16"/>
+            <MenuItem Tag="{x:Static local:MenuAction.Undo}" Header="Undo" FontSize="16" Click="MenuItem_Clicked"/>
             <MenuItem Name="ThemeMenuItem" Header="LightMode" FontSize="16" Click="ToogleTheme_Click"/>
         </Menu>
     </Grid>

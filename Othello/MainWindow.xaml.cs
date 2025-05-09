@@ -29,13 +29,17 @@ namespace Othello
         {
             switch(action)
             {
-                case MenuAction.PlaySolo:
-                    game.resetGame();
+                case MenuAction.NewGame:
+                    game.ResetGame();
+                    break;
+                case MenuAction.Undo:
+                    game.UndoMove();
                     break;
                 default:
                     break;
 
             }
+            return;
         }
     }
 }

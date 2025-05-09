@@ -7,7 +7,7 @@ namespace Othello.View.UserControls
     /// <summary>
     /// Interaction logic for GameMenu.xaml
     /// </summary>
-    public enum MenuAction { PlaySolo, PlayAI, Quit, Settings }
+    public enum MenuAction {NewGame, HostGame, JoinGame, LoadGame, Quit, Settings , Undo}
     public partial class GameMenu : UserControl
     {
         public event Action<MenuAction>? MenuItemClicked;
@@ -34,9 +34,12 @@ namespace Othello.View.UserControls
             //DebugTextBox.Text = "Theme Changed: " + darkTheme;
         }
 
-        private void PlaySolo_Click(object sender, RoutedEventArgs e)
+        private void MenuItem_Clicked(object sender, RoutedEventArgs e)
         {
-            MenuItemClicked?.Invoke(MenuAction.PlaySolo);
+            if (sender is MenuItem menuItem && menuItem.Tag is MenuAction action)
+            {
+                MenuItemClicked?.Invoke(action);
+            }
         }
     }
 }

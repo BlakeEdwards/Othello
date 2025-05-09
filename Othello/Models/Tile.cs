@@ -81,8 +81,8 @@ namespace Othello.GameLogic
         }
         public void resetTile() 
         {
-            if ((row == 3 && col == 3) || (row == 4 && col == 4)) { Owner = Players.Player1; }
-            else if ((row == 4 && col == 3) || (row == 3 && col == 4)) { Owner = Players.Player2; }
+            if ((row == 3 && col == 3) || (row == 4 && col == 4)) { Owner = Players.Player2; }
+            else if ((row == 4 && col == 3) || (row == 3 && col == 4)) { Owner = Players.Player1; }
             else { Owner = Players.None; }
         }
     }
